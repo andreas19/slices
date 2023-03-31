@@ -116,3 +116,45 @@ func TestIsSorted(t *testing.T) {
 		}
 	}
 }
+
+func TestSearch(t *testing.T) {
+	var tests = []struct {
+		sl         []int
+		v          int
+		want_idx   int
+		want_found bool
+	}{
+		{nil, 1, 0, false},
+		{[]int{}, 1, 0, false},
+		{[]int{1}, 0, 0, false},
+		{[]int{1}, 1, 0, true},
+		{[]int{1}, 2, 1, false},
+		{[]int{1, 3}, 2, 1, false},
+	}
+	for i, test := range tests {
+		if got_idx, got_found := Search(test.sl, test.v); got_idx != test.want_idx || got_found != test.want_found {
+			t.Errorf("%d: got %d, %t, want %d, %t", i, got_idx, got_found, test.want_idx, test.want_found)
+		}
+	}
+}
+
+func TestSearchFunc(t *testing.T) {
+	var tests = []struct {
+		sl         []int
+		v          int
+		want_idx   int
+		want_found bool
+	}{
+		{nil, 1, 0, false},
+		{[]int{}, 1, 0, false},
+		{[]int{1}, 0, 0, false},
+		{[]int{1}, 1, 0, true},
+		{[]int{1}, 2, 1, false},
+		{[]int{1, 3}, 2, 1, false},
+	}
+	for i, test := range tests {
+		if got_idx, got_found := SearchFunc(test.sl, test.v, lessFn[int]); got_idx != test.want_idx || got_found != test.want_found {
+			t.Errorf("%d: got %d, %t, want %d, %t", i, got_idx, got_found, test.want_idx, test.want_found)
+		}
+	}
+}

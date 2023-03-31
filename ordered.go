@@ -90,3 +90,31 @@ func IsSortedFunc[T any](sl []T, f LessFunc[T]) bool {
 		return f(sl[i], sl[j])
 	})
 }
+
+// Search does a binary search and returns idx and found.
+// If found is true, idx is the first index at which v was found.
+// If found is false, idx is the index at which v must be inserted to keep sl sorted.
+// The slice sl must be sorted in ascending order.
+func Search[T Ordered](sl []T, v T) (idx int, found bool) {
+	l := len(sl)
+	i := sort.Search(l, func(i int) bool { return sl[i] >= v })
+	if i < l && sl[i] == v {
+		return i, true
+	} else {
+		return i, false
+	}
+}
+
+// SearchFunc does a binary search using a function to compare values.
+// If found is true, idx is the first index at which v was found.
+// If found is false, idx is the index at which v must be inserted to keep sl sorted.
+// The slice sl must be sorted in ascending order according to function f.
+func SearchFunc[T any](sl []T, v T, f LessFunc[T]) (int, bool) {
+	l := len(sl)
+	i := sort.Search(l, func(i int) bool { return !f(sl[i], v) })
+	if i < l && !(f(sl[i], v) || f(v, sl[i])) {
+		return i, true
+	} else {
+		return i, false
+	}
+}
