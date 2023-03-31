@@ -15,9 +15,9 @@ func TestSum(t *testing.T) {
 		{[]int{1}, 1},
 		{[]int{1, 2}, 3},
 	}
-	for _, test := range tests {
+	for i, test := range tests {
 		if got := Sum(test.sl); got != test.want {
-			t.Errorf("got %d, want %d", got, test.want)
+			t.Errorf("%d: got %d, want %d", i, got, test.want)
 		}
 	}
 }
@@ -32,9 +32,9 @@ func TestProduct(t *testing.T) {
 		{[]int{2}, 2},
 		{[]int{2, 3}, 6},
 	}
-	for _, test := range tests {
+	for i, test := range tests {
 		if got := Product(test.sl); got != test.want {
-			t.Errorf("got %d, want %d", got, test.want)
+			t.Errorf("%d: got %d, want %d", i, got, test.want)
 		}
 	}
 }
@@ -55,9 +55,9 @@ func TestRange(t *testing.T) {
 		{0, 1, -1, nil},
 		{1, 0, 1, nil},
 	}
-	for _, test := range tests {
+	for i, test := range tests {
 		if got := Range(test.start, test.end, test.step); !reflect.DeepEqual(got, test.want) || cap(got) != len(test.want) {
-			t.Errorf("got %#v / %d, want %#v / %d", got, cap(got), test.want, len(test.want))
+			t.Errorf("%d: got %#v / %d, want %#v / %d", i, got, cap(got), test.want, len(test.want))
 		}
 	}
 }

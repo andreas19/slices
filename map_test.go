@@ -15,9 +15,9 @@ func TestMap(t *testing.T) {
 		{[]int{1, 2}, []int{1, 4}},
 	}
 	f := func(x int) int { return x * x }
-	for _, test := range tests {
+	for i, test := range tests {
 		if got := Map(test.sl, f); !reflect.DeepEqual(got, test.want) {
-			t.Errorf("got %#v, want %#v", got, test.want)
+			t.Errorf("%d: got %#v, want %#v", i, got, test.want)
 		}
 	}
 }

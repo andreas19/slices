@@ -7,13 +7,13 @@ import (
 
 func TestClone(t *testing.T) {
 	var tests = [][]int{nil, {}, {1}, {1, 2}}
-	for _, test := range tests {
+	for i, test := range tests {
 		if got := Clone(test); reflect.DeepEqual(got, test) {
 			if len(got) > 0 && &got[0] == &test[0] {
-				t.Error("uses same array")
+				t.Errorf("%d: uses same array", i)
 			}
 		} else {
-			t.Errorf("got %#v, want %#v", got, test)
+			t.Errorf("%d: got %#v, want %#v", i, got, test)
 		}
 	}
 }
@@ -39,9 +39,9 @@ func TestFilter(t *testing.T) {
 		{[]int{1, 3}, []int{}},
 		{[]int{1, 2, 3, 4}, []int{2, 4}},
 	}
-	for _, test := range tests {
+	for i, test := range tests {
 		if got := Filter(test.sl, f); !reflect.DeepEqual(got, test.want) {
-			t.Errorf("got %#v, want %#v", got, test.want)
+			t.Errorf("%d: got %#v, want %#v", i, got, test.want)
 		}
 	}
 }
@@ -55,9 +55,9 @@ func TestRepeat(t *testing.T) {
 		{1, 1, []int{1}},
 		{1, 2, []int{1, 1}},
 	}
-	for _, test := range tests {
+	for i, test := range tests {
 		if got := Repeat(test.v, test.n); !reflect.DeepEqual(got, test.want) {
-			t.Errorf("got %#v, want %#v", got, test.want)
+			t.Errorf("%d: got %#v, want %#v", i, got, test.want)
 		}
 	}
 }
@@ -76,9 +76,9 @@ func TestReverse(t *testing.T) {
 		{[]int{1, 2}, []int{2, 1}},
 		{[]int{1, 2, 3}, []int{3, 2, 1}},
 	}
-	for _, test := range tests {
+	for i, test := range tests {
 		if Reverse(test.sl); !reflect.DeepEqual(test.sl, test.want) {
-			t.Errorf("got %#v, want %#v", test.sl, test.want)
+			t.Errorf("%d: got %#v, want %#v", i, test.sl, test.want)
 		}
 	}
 }
@@ -91,9 +91,9 @@ func TestReverseClone(t *testing.T) {
 		{[]int{1, 2}, []int{2, 1}},
 		{[]int{1, 2, 3}, []int{3, 2, 1}},
 	}
-	for _, test := range tests {
+	for i, test := range tests {
 		if got := ReverseClone(test.sl); !reflect.DeepEqual(got, test.want) {
-			t.Errorf("got %#v, want %#v", got, test.want)
+			t.Errorf("%d: got %#v, want %#v", i, got, test.want)
 		}
 	}
 }

@@ -3,6 +3,7 @@ package slices
 // Predicate function type
 type Predicate[T any] func(v T) bool
 
+// Clone clones the slice.
 func Clone[T any](sl []T) []T {
 	if sl == nil {
 		return nil

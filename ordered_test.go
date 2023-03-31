@@ -14,9 +14,9 @@ func TestMin(t *testing.T) {
 		{[]int{1, 2}, 1},
 		{[]int{2, 1}, 1},
 	}
-	for _, test := range tests {
+	for i, test := range tests {
 		if got := Min(test.sl); got != test.want {
-			t.Errorf("got %d, want %d", got, test.want)
+			t.Errorf("%d: got %d, want %d", i, got, test.want)
 		}
 	}
 }
@@ -42,9 +42,9 @@ func TestMax(t *testing.T) {
 		{[]int{1, 2}, 2},
 		{[]int{2, 1}, 2},
 	}
-	for _, test := range tests {
+	for i, test := range tests {
 		if got := Max(test.sl); got != test.want {
-			t.Errorf("got %d, want %d", got, test.want)
+			t.Errorf("%d: got %d, want %d", i, got, test.want)
 		}
 	}
 }
@@ -71,9 +71,9 @@ func TestSort(t *testing.T) {
 		{[]int{1, 2}, []int{1, 2}},
 		{[]int{2, 1}, []int{1, 2}},
 	}
-	for _, test := range tests {
+	for i, test := range tests {
 		if Sort(test.sl); !reflect.DeepEqual(test.sl, test.want) {
-			t.Errorf("got %#v, want %#v", test.sl, test.want)
+			t.Errorf("%d: got %#v, want %#v", i, test.sl, test.want)
 		}
 	}
 }
@@ -88,13 +88,13 @@ func TestSortClone(t *testing.T) {
 		{[]int{1, 2}, []int{1, 2}},
 		{[]int{2, 1}, []int{1, 2}},
 	}
-	for _, test := range tests {
+	for i, test := range tests {
 		if got := SortClone(test.sl); reflect.DeepEqual(got, test.want) {
 			if len(got) > 0 && &got[0] == &test.sl[0] {
-				t.Error("uses same array")
+				t.Errorf("%d: uses same array", i)
 			}
 		} else {
-			t.Errorf("got %#v, want %#v", test.sl, test.want)
+			t.Errorf("%d: got %#v, want %#v", i, test.sl, test.want)
 		}
 	}
 }
@@ -110,9 +110,9 @@ func TestIsSorted(t *testing.T) {
 		{[]int{1, 2}, true},
 		{[]int{2, 1}, false},
 	}
-	for _, test := range tests {
+	for i, test := range tests {
 		if got := IsSorted(test.sl); got != test.want {
-			t.Errorf("got %t, want %t", got, test.want)
+			t.Errorf("%d: got %t, want %t", i, got, test.want)
 		}
 	}
 }
