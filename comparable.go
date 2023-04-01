@@ -139,7 +139,22 @@ func GroupFunc[T any](sl []T, f CmpFunc[T]) [][]T {
 	return result
 }
 
-// TODO
-// func Purge[T comparable](sl, ps []T) []T
+// Purge returns a new slice with all values from sl which are not in ps.
+func Purge[T comparable](sl, ps []T) []T {
+	return PurgeFunc(sl, ps, cmpFn[T])
+}
 
-// func PurgeFunc[T any](sl, ps []T, f CmpFunc[T]) []T
+// PurgeFunc returns a new slice with all values from sl which are not in ps
+// using a function to compare values.
+func PurgeFunc[T any](sl, ps []T, f CmpFunc[T]) []T {
+	if sl == nil {
+		return nil
+	}
+	result := []T{}
+	for _, v := range sl {
+		if FindFromFunc(ps, v, 0, f) == -1 {
+			result = append(result, v)
+		}
+	}
+	return result
+}

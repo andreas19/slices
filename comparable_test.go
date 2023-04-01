@@ -135,3 +135,20 @@ func TestGroup(t *testing.T) {
 		}
 	}
 }
+
+func TestPurge(t *testing.T) {
+	var tests = []struct {
+		sl, ps, want []int
+	}{
+		{nil, nil, nil},
+		{[]int{}, nil, []int{}},
+		{[]int{1, 2, 3}, []int{}, []int{1, 2, 3}},
+		{[]int{1, 2, 3}, []int{1, 3}, []int{2}},
+		{[]int{1, 2, 3}, []int{1, 2, 3}, []int{}},
+	}
+	for i, test := range tests {
+		if got := Purge(test.sl, test.ps); !reflect.DeepEqual(got, test.want) {
+			t.Errorf("%d: got %#v, want %#v", i, got, test.want)
+		}
+	}
+}
