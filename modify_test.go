@@ -31,3 +31,56 @@ func TestInsert(t *testing.T) {
 		}
 	}
 }
+
+func TestDelete(t *testing.T) {
+	var tests = []struct {
+		sl, idxs, want []int
+	}{
+		{nil, nil, nil},
+		{[]int{}, nil, []int{}},
+		{[]int{1}, []int{}, []int{1}},
+		{[]int{1}, []int{0}, []int{}},
+		{[]int{1, 2, 3}, []int{}, []int{1, 2, 3}},
+		{[]int{1, 2, 3}, []int{0}, []int{2, 3}},
+		{[]int{1, 2, 3}, []int{1}, []int{1, 3}},
+		{[]int{1, 2, 3}, []int{2}, []int{1, 2}},
+		{[]int{1, 2, 3}, []int{0, 1}, []int{3}},
+		{[]int{1, 2, 3}, []int{1, 2}, []int{1}},
+		{[]int{1, 2, 3}, []int{0, 2}, []int{2}},
+		{[]int{1, 2, 3}, []int{0, 1, 2}, []int{}},
+	}
+	for i, test := range tests {
+		if got := Delete(test.sl, test.idxs...); !reflect.DeepEqual(got, test.want) {
+			t.Errorf("%d: got %#v, want %#v", i, got, test.want)
+		}
+	}
+}
+
+func TestDeleteRange(t *testing.T) {
+	var tests = []struct {
+		sl            []int
+		start, length int
+		want          []int
+	}{
+		{[]int{1, 2, 3}, 0, 1, []int{2, 3}},
+		{[]int{1, 2, 3}, 0, 2, []int{3}},
+		{[]int{1, 2, 3}, 0, 3, []int{}},
+		{[]int{1, 2, 3}, 0, 4, []int{}},
+		{[]int{1, 2, 3}, 1, 1, []int{1, 3}},
+		{[]int{1, 2, 3}, 1, 2, []int{1}},
+	}
+	for i, test := range tests {
+		if got := DeleteRange(test.sl, test.start, test.length); !reflect.DeepEqual(got, test.want) {
+			t.Errorf("%d: got %#v, want %#v", i, got, test.want)
+		}
+	}
+}
+
+func TestDeletePred(t *testing.T) {
+	sl := []int{1, 2, 3, 4}
+	want := []int{1, 3}
+	p := func(v int) bool { return v%2 == 0 }
+	if got := DeletePred(sl, p); !reflect.DeepEqual(got, want) {
+		t.Errorf("got %#v, want %#v", got, want)
+	}
+}
