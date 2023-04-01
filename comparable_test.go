@@ -116,3 +116,22 @@ func TestUniqueFunc(t *testing.T) {
 		}
 	}
 }
+
+func TestGroup(t *testing.T) {
+	var tests = []struct {
+		sl   []int
+		want [][]int
+	}{
+		{nil, nil},
+		{[]int{}, [][]int{}},
+		{[]int{1}, [][]int{{1}}},
+		{[]int{1, 2}, [][]int{{1}, {2}}},
+		{[]int{1, 1, 2, 2}, [][]int{{1, 1}, {2, 2}}},
+		{[]int{1, 1, 2, 2, 1, 1}, [][]int{{1, 1}, {2, 2}, {1, 1}}},
+	}
+	for i, test := range tests {
+		if got := Group(test.sl); !reflect.DeepEqual(got, test.want) {
+			t.Errorf("%d: got %#v, want %#v", i, got, test.want)
+		}
+	}
+}

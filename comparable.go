@@ -112,11 +112,34 @@ func UniqueFunc[T any](sl []T, f CmpFunc[T]) []T {
 	return result
 }
 
+// Group groups consecutive, equal values from sl.
+func Group[T comparable](sl []T) [][]T {
+	return GroupFunc(sl, cmpFn[T])
+}
+
+// GroupFunc groups consecutive, equal values from sl using a function to compare values.
+func GroupFunc[T any](sl []T, f CmpFunc[T]) [][]T {
+	if sl == nil {
+		return nil
+	}
+	result := [][]T{}
+	if len(sl) == 0 {
+		return result
+	}
+	tmp := []T{sl[0]}
+	for _, x := range sl[1:] {
+		if f(tmp[0], x) {
+			tmp = append(tmp, x)
+		} else {
+			result = append(result, tmp)
+			tmp = []T{x}
+		}
+	}
+	result = append(result, tmp)
+	return result
+}
+
 // TODO
-// func Group[T comparable](sl []T) [][]T
-
-// func GroupFunc[T any](sl []T, f CmpFunc[T]) [][]T
-
 // func Purge[T comparable](sl, ps []T) []T
 
 // func PurgeFunc[T any](sl, ps []T, f CmpFunc[T]) []T
