@@ -64,6 +64,25 @@ func TestFind(t *testing.T) {
 	}
 }
 
+func TestFindAll(t *testing.T) {
+	var tests = []struct {
+		sl   []int
+		v    int
+		want []int
+	}{
+		{nil, 1, nil},
+		{[]int{}, 1, []int{}},
+		{[]int{1}, 1, []int{0}},
+		{[]int{2}, 1, []int{}},
+		{[]int{1, 2, 1}, 1, []int{0, 2}},
+	}
+	for i, test := range tests {
+		if got := FindAll(test.sl, test.v); !reflect.DeepEqual(got, test.want) {
+			t.Errorf("%d: got %#v,, want %#v", i, got, test.want)
+		}
+	}
+}
+
 func TestUnique(t *testing.T) {
 	var tests = []struct {
 		sl, want []int

@@ -35,23 +35,24 @@ func EqualFunc[T any](sl1, sl2 []T, f CmpFunc[T]) bool {
 	return true
 }
 
-// Find returns the index of the value or -1 if not found.
+// Find returns the index of the value in sl or -1 if not found.
 func Find[T comparable](sl []T, v T) int {
 	return FindFromFunc(sl, v, 0, cmpFn[T])
 }
 
-// FindFunc returns the index of the value or -1 if not found using
+// FindFunc returns the index of the value in sl or -1 if not found using
 // a function to compare values.
 func FindFunc[T any](sl []T, v T, f CmpFunc[T]) int {
 	return FindFromFunc(sl, v, 0, f)
 }
 
-// FindFrom returns the index of the value or -1 if not found. It starts at index start.
+// FindFrom returns the index of the value in sl or -1 if not found.
+// It starts at index start.
 func FindFrom[T comparable](sl []T, v T, start int) int {
 	return FindFromFunc(sl, v, start, cmpFn[T])
 }
 
-// FindFromFunc returns the index of the value or -1 if not found using
+// FindFromFunc returns the index of the value in sl or -1 if not found using
 // a function to compare values. It starts at index start.
 func FindFromFunc[T any](sl []T, v T, start int, f CmpFunc[T]) int {
 	for i := start; i < len(sl); i++ {
@@ -62,10 +63,24 @@ func FindFromFunc[T any](sl []T, v T, start int, f CmpFunc[T]) int {
 	return -1
 }
 
-// TODO
-// func FindAll[T comparable](sl []T, v T) []int
+// FindAll returns all indexes of the value v.
+func FindAll[T comparable](sl []T, v T) []int {
+	return FindAllFunc(sl, v, cmpFn[T])
+}
 
-// func FindAllFunc[T any](sl []T, v T, f CmpFunc[T]) []int
+// FindAll returns all indexes of the value v using a function to compare values.
+func FindAllFunc[T any](sl []T, v T, f CmpFunc[T]) []int {
+	if sl == nil {
+		return nil
+	}
+	result := []int{}
+	for i, x := range sl {
+		if f(v, x) {
+			result = append(result, i)
+		}
+	}
+	return result
+}
 
 // Unique returns the unique values from a slice.
 func Unique[T comparable](sl []T) []T {
