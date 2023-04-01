@@ -37,18 +37,35 @@ func EqualFunc[T any](sl1, sl2 []T, f CmpFunc[T]) bool {
 
 // Find returns the index of the value or -1 if not found.
 func Find[T comparable](sl []T, v T) int {
-	return FindFunc(sl, v, cmpFn[T])
+	return FindFromFunc(sl, v, 0, cmpFn[T])
 }
 
-// FindFunc returns the index of the value or -1 if not found using a function to compare values.
+// FindFunc returns the index of the value or -1 if not found using
+// a function to compare values.
 func FindFunc[T any](sl []T, v T, f CmpFunc[T]) int {
-	for i, x := range sl {
-		if f(x, v) {
-			return i
+	return FindFromFunc(sl, v, 0, f)
+}
+
+// FindFrom returns the index of the value or -1 if not found. It starts at index start.
+func FindFrom[T comparable](sl []T, v T, start int) int {
+	return FindFromFunc(sl, v, start, cmpFn[T])
+}
+
+// FindFromFunc returns the index of the value or -1 if not found using
+// a function to compare values. It starts at index start.
+func FindFromFunc[T any](sl []T, v T, start int, f CmpFunc[T]) int {
+	for i := start; i < len(sl); i++ {
+		if f(v, sl[i]) {
+			return i + start
 		}
 	}
 	return -1
 }
+
+// TODO
+// func FindAll[T comparable](sl []T, v T) []int
+
+// func FindAllFunc[T any](sl []T, v T, f CmpFunc[T]) []int
 
 // Unique returns the unique values from a slice.
 func Unique[T comparable](sl []T) []T {
@@ -79,3 +96,12 @@ func UniqueFunc[T any](sl []T, f CmpFunc[T]) []T {
 	}
 	return result
 }
+
+// TODO
+// func Group[T comparable](sl []T) [][]T
+
+// func GroupFunc[T any](sl []T, f CmpFunc[T]) [][]T
+
+// func Purge[T comparable](sl, ps []T) []T
+
+// func PurgeFunc[T any](sl, ps []T, f CmpFunc[T]) []T
