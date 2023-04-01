@@ -86,3 +86,18 @@ func ReverseClone[T any](sl []T) []T {
 	Reverse(result)
 	return result
 }
+
+// Compress returns a new slice with all values from sl for which the corresponding
+// value is selectors is true.
+func Compress[T any](sl []T, selectors []bool) []T {
+	if sl == nil {
+		return nil
+	}
+	result := []T{}
+	for i := 0; i < Min([]int{len(sl), len(selectors)}); i++ {
+		if selectors[i] {
+			result = append(result, sl[i])
+		}
+	}
+	return result
+}

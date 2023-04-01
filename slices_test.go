@@ -97,3 +97,22 @@ func TestReverseClone(t *testing.T) {
 		}
 	}
 }
+
+func TestCompress(t *testing.T) {
+	var tests = []struct {
+		sl   []int
+		sel  []bool
+		want []int
+	}{
+		{nil, nil, nil},
+		{[]int{}, []bool{}, []int{}},
+		{[]int{1, 2, 3}, []bool{false, true, true}, []int{2, 3}},
+		{[]int{1, 2, 3}, []bool{false, true}, []int{2}},
+		{[]int{1, 2}, []bool{false, true, true}, []int{2}},
+	}
+	for i, test := range tests {
+		if got := Compress(test.sl, test.sel); !reflect.DeepEqual(got, test.want) {
+			t.Errorf("%d: got %#v, want %#v", i, got, test.want)
+		}
+	}
+}
