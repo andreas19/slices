@@ -101,3 +101,31 @@ func Compress[T any](sl []T, selectors []bool) []T {
 	}
 	return result
 }
+
+// DropWhile drops values from sl as long as pred returns true and returns
+// the rest in a new slice.
+func DropWhile[T any](sl []T, pred Predicate[T]) []T {
+	cnt := 0
+	for _, v := range sl {
+		if pred(v) {
+			cnt++
+		} else {
+			break
+		}
+	}
+	return Clone(sl[cnt:])
+}
+
+// TakeWhile takes values from sl as long as pred returns true and returns
+// them in a new slice.
+func TakeWhile[T any](sl []T, pred Predicate[T]) []T {
+	cnt := 0
+	for _, v := range sl {
+		if pred(v) {
+			cnt++
+		} else {
+			break
+		}
+	}
+	return Clone(sl[:cnt])
+}

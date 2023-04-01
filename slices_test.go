@@ -116,3 +116,43 @@ func TestCompress(t *testing.T) {
 		}
 	}
 }
+
+func TestDropWhile(t *testing.T) {
+	var tests = []struct {
+		sl   []int
+		want []int
+	}{
+		{nil, nil},
+		{[]int{}, []int{}},
+		{[]int{1, 2}, []int{1, 2}},
+		{[]int{2, 1}, []int{1}},
+		{[]int{2, 2}, []int{}},
+		{[]int{2, 3, 2}, []int{3, 2}},
+	}
+	p := func(x int) bool { return x%2 == 0 }
+	for i, test := range tests {
+		if got := DropWhile(test.sl, p); !reflect.DeepEqual(got, test.want) {
+			t.Errorf("%d: got %#v, want %#v", i, got, test.want)
+		}
+	}
+}
+
+func TestTakeWhile(t *testing.T) {
+	var tests = []struct {
+		sl   []int
+		want []int
+	}{
+		{nil, nil},
+		{[]int{}, []int{}},
+		{[]int{1, 2}, []int{}},
+		{[]int{2, 1}, []int{2}},
+		{[]int{2, 2}, []int{2, 2}},
+		{[]int{2, 3, 2}, []int{2}},
+	}
+	p := func(x int) bool { return x%2 == 0 }
+	for i, test := range tests {
+		if got := TakeWhile(test.sl, p); !reflect.DeepEqual(got, test.want) {
+			t.Errorf("%d: got %#v, want %#v", i, got, test.want)
+		}
+	}
+}
