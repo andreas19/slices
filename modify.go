@@ -57,3 +57,11 @@ func DeletePred[T any](sl []T, pred Predicate[T]) []T {
 	}
 	return Delete(sl, idxs...)
 }
+
+// Fill fills the slice with the given value including the unused capacity.
+func Fill[T any](sl []T, v T) {
+	sl = sl[:cap(sl)]
+	for i := range sl {
+		sl[i] = v
+	}
+}

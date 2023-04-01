@@ -84,3 +84,24 @@ func TestDeletePred(t *testing.T) {
 		t.Errorf("got %#v, want %#v", got, want)
 	}
 }
+
+func TestFill(t *testing.T) {
+	var tests = []struct {
+		sl   []int
+		v    int
+		want []int
+	}{
+		{nil, 0, nil},
+		{[]int{}, 0, []int{}},
+		{[]int{1}, 0, []int{0}},
+		{[]int{1, 2}, 0, []int{0, 0}},
+		{[]int{1, 2, 3, 4}[:2], 0, []int{0, 0, 0, 0}},
+	}
+	for i, test := range tests {
+		Fill(test.sl, test.v)
+		if c := cap(test.sl); !reflect.DeepEqual(test.sl[:c], test.want) ||
+			!reflect.DeepEqual(test.sl, test.want[:len(test.sl)]) {
+			t.Errorf("%d: got %#v, want %#v", i, test.sl[:c], test.want)
+		}
+	}
+}
