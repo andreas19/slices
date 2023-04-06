@@ -140,7 +140,7 @@ func Get[T any](sl []T, idx int) T {
 }
 
 // Slice returns a slice from sl. If start or end < 0 it computes the indexes from the end.
-// Panics if the (computed) slice bound are out of range.
+// Panics if the (computed) slice bounds are out of range.
 func Slice[T any](sl []T, start, end int) []T {
 	if start < 0 {
 		start = len(sl) + start
