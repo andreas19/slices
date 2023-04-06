@@ -129,3 +129,24 @@ func TakeWhile[T any](sl []T, pred Predicate[T]) []T {
 	}
 	return Clone(sl[:cnt])
 }
+
+// Get gets the element at index idx. If idx < 0 it computes the index from the end.
+// Panics if idx >= len(sl) or the computed index is < 0.
+func Get[T any](sl []T, idx int) T {
+	if idx < 0 {
+		idx = len(sl) + idx
+	}
+	return sl[idx]
+}
+
+// Slice returns a slice from sl. If start or end < 0 it computes the indexes from the end.
+// Panics if the (computed) slice bound are out of range.
+func Slice[T any](sl []T, start, end int) []T {
+	if start < 0 {
+		start = len(sl) + start
+	}
+	if end < 0 {
+		end = len(sl) + end
+	}
+	return sl[start:end]
+}

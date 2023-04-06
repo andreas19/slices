@@ -156,3 +156,55 @@ func TestTakeWhile(t *testing.T) {
 		}
 	}
 }
+
+func TestGet(t *testing.T) {
+	sl := []int{1, 2, 3}
+	var tests = []struct {
+		idx  int
+		want int
+	}{
+		{0, 1},
+		{1, 2},
+		{2, 3},
+		{-1, 3},
+		{-2, 2},
+		{-3, 1},
+	}
+	for i, test := range tests {
+		if got := Get(sl, test.idx); got != test.want {
+			t.Errorf("%d: got %d, want %d", i, got, test.want)
+		}
+	}
+}
+
+func TestGetPanic(t *testing.T) {
+	defer func() { _ = recover() }()
+	sl := []int{1, 2, 3}
+	Get(sl, -4)
+	t.Errorf("did not panic")
+}
+
+func TestSlice(t *testing.T) {
+	sl := []int{1, 2, 3}
+	var tests = []struct {
+		start, end int
+		want       []int
+	}{
+		{0, 0, []int{}},
+		{0, 1, []int{1}},
+		{0, 2, []int{1, 2}},
+		{0, 3, []int{1, 2, 3}},
+		{1, 3, []int{2, 3}},
+		{-3, -1, []int{1, 2}},
+		{-3, -2, []int{1}},
+		{-3, -3, []int{}},
+		{-2, -1, []int{2}},
+		{-2, -2, []int{}},
+		{-1, -1, []int{}},
+	}
+	for i, test := range tests {
+		if got := Slice(sl, test.start, test.end); !reflect.DeepEqual(got, test.want) {
+			t.Errorf("%d: got %#v, want %#v", i, got, test.want)
+		}
+	}
+}
