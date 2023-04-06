@@ -166,3 +166,12 @@ func RepeatSlice[T any](sl []T, n int) []T {
 	}
 	return result
 }
+
+// CreateFunc returns a slice of given length with values created by successive calls to fn.
+func CreateFunc[T any](length int, fn func() T) []T {
+	result := make([]T, length)
+	for i := 0; i < length; i++ {
+		result[i] = fn()
+	}
+	return result
+}

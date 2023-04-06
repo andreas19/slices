@@ -237,3 +237,16 @@ func TestRepeatSliceNegN(t *testing.T) {
 	RepeatSlice([]int{1, 2}, -1)
 	t.Errorf("did not panic")
 }
+
+func TestCreateFunc(t *testing.T) {
+	sl := []int{1, 2, 3}
+	idx := -1
+	want := []int{2, 4}
+	got := CreateFunc(2, func() int {
+		idx++
+		return sl[idx] * 2
+	})
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %#v, want %#v", got, want)
+	}
+}
