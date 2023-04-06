@@ -208,3 +208,32 @@ func TestSlice(t *testing.T) {
 		}
 	}
 }
+
+func TestRepeatSlice(t *testing.T) {
+	var tests = []struct {
+		sl   []int
+		n    int
+		want []int
+	}{
+		{nil, 1, nil},
+		{[]int{}, 0, []int{}},
+		{[]int{}, 1, []int{}},
+		{[]int{1}, 0, []int{}},
+		{[]int{1}, 1, []int{1}},
+		{[]int{1}, 2, []int{1, 1}},
+		{[]int{1, 2}, 0, []int{}},
+		{[]int{1, 2}, 1, []int{1, 2}},
+		{[]int{1, 2}, 2, []int{1, 2, 1, 2}},
+	}
+	for i, test := range tests {
+		if got := RepeatSlice(test.sl, test.n); !reflect.DeepEqual(got, test.want) {
+			t.Errorf("%d: got %#v, want %#v", i, got, test.want)
+		}
+	}
+}
+
+func TestRepeatSliceNegN(t *testing.T) {
+	defer func() { _ = recover() }()
+	RepeatSlice([]int{1, 2}, -1)
+	t.Errorf("did not panic")
+}

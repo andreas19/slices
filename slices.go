@@ -59,7 +59,7 @@ func Flatten[T any](sl [][]T) []T {
 }
 
 // Repeat returns a slice with n repetitions of the given value.
-// Pancis when n < 0
+// Pancis if n < 0.
 func Repeat[T any](v T, n int) []T {
 	if n < 0 {
 		panic("n must be >= 0")
@@ -149,4 +149,20 @@ func Slice[T any](sl []T, start, end int) []T {
 		end = len(sl) + end
 	}
 	return sl[start:end]
+}
+
+// Repeat returns a slice with n repetitions of the values in the given slice.
+// Pancis if n < 0.
+func RepeatSlice[T any](sl []T, n int) []T {
+	if n < 0 {
+		panic("n must be >= 0")
+	}
+	if sl == nil {
+		return nil
+	}
+	result := make([]T, 0, n*len(sl))
+	for i := 0; i < n; i++ {
+		result = append(result, sl...)
+	}
+	return result
 }
