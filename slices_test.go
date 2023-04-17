@@ -250,3 +250,37 @@ func TestCreateFunc(t *testing.T) {
 		t.Errorf("got %#v, want %#v", got, want)
 	}
 }
+
+func TestAdjust(t *testing.T) {
+	var tests = []struct {
+		sl               []int
+		length, capacity int
+		want_sl          []int
+		want_cap         int
+	}{
+		{nil, 0, 0, nil, 0},
+		{[]int{}, 0, 0, []int{}, 0},
+		{[]int{}, 0, 1, []int{}, 1},
+		{[]int{1, 2, 3, 4, 5}, 0, 0, []int{}, 0},
+		{[]int{1, 2, 3, 4, 5}, 0, 1, []int{}, 1},
+		{[]int{1, 2, 3, 4, 5}, 0, 2, []int{}, 2},
+		{[]int{1, 2, 3, 4, 5}, 1, 0, []int{1}, 1},
+		{[]int{1, 2, 3, 4, 5}, 2, 2, []int{1, 2}, 2},
+		{[]int{1, 2, 3, 4, 5}, 3, 6, []int{1, 2, 3}, 6},
+		{[]int{1, 2, 3, 4, 5}, 6, 6, []int{1, 2, 3, 4, 5, 0}, 6},
+		{[]int{1, 2, 3, 4, 5}, 6, 10, []int{1, 2, 3, 4, 5, 0}, 10},
+	}
+	for i, test := range tests {
+		if got := Adjust(test.sl, test.length, test.capacity); test.want_cap != cap(got) ||
+			!reflect.DeepEqual(got, test.want_sl) {
+			t.Errorf("%d: got %#v and %d, want %#v and %d", i, got, cap(got),
+				test.want_sl, test.want_cap)
+		}
+	}
+}
+
+func TestAdjustNegLength(t *testing.T) {
+	defer func() { _ = recover() }()
+	Adjust([]int{}, -1, 1)
+	t.Error("did not panic")
+}

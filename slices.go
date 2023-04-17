@@ -170,3 +170,23 @@ func CreateFunc[T any](length int, fn func() T) []T {
 	}
 	return result
 }
+
+// Adjust adjusts length and capacity of the given slice. If capacity < length it is set
+// to length. Panics if length < 0.
+func Adjust[T any](sl []T, length, capacity int) []T {
+	if length < 0 {
+		panic("length must be >= 0")
+	}
+	if sl == nil {
+		return nil
+	}
+	if capacity < length {
+		capacity = length
+	}
+	if capacity <= cap(sl) {
+		return sl[:length:capacity]
+	}
+	result := make([]T, capacity)
+	copy(result, sl)
+	return result[:length]
+}
