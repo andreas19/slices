@@ -13,11 +13,6 @@ func Clone[T any](sl []T) []T {
 	return result
 }
 
-// Compact sets the capacity equal to the length of the slice.
-func Compact[T any](sl []T) []T {
-	return sl[:len(sl):len(sl)]
-}
-
 // Concat returns the concatenation of all given slices as a new slice.
 func Concat[T any](sls ...[]T) []T {
 	if sls == nil {
