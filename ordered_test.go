@@ -61,6 +61,35 @@ func TestMaxEmpty(t *testing.T) {
 	t.Error("did not panic")
 }
 
+func TestExtrema(t *testing.T) {
+	var tests = []struct {
+		sl                 []int
+		want_min, want_max int
+	}{
+		{[]int{1}, 1, 1},
+		{[]int{1, 1}, 1, 1},
+		{[]int{1, 2}, 1, 2},
+		{[]int{1, 2, 3}, 1, 3},
+		{[]int{3, 2, 1}, 1, 3},
+	}
+	for i, test := range tests {
+		if got_min, got_max := Extrema(test.sl); got_min != test.want_min || got_max != test.want_max {
+			t.Errorf("%d: got %d and %d, want %d and %d", i, got_min, got_max, test.want_min, test.want_max)
+		}
+	}
+}
+
+func TestExtremaNil(t *testing.T) {
+	defer func() { _ = recover() }()
+	_, _ = Extrema[int](nil)
+	t.Error("did not panic")
+}
+
+func TestExtremaEmpty(t *testing.T) {
+	defer func() { _ = recover() }()
+	_, _ = Extrema([]int{})
+	t.Error("did not panic")
+}
 func TestSort(t *testing.T) {
 	var tests = []struct {
 		sl, want []int

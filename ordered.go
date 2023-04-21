@@ -47,12 +47,36 @@ func MaxFunc[T any](sl []T, f LessFunc[T]) T {
 		panic("slice is empty or nil")
 	}
 	result := sl[0]
-	for _, v := range sl {
+	for _, v := range sl[1:] {
 		if f(result, v) {
 			result = v
 		}
 	}
 	return result
+}
+
+// Extrema returns minimum and maximum from the slice.
+// Panics if the slice is empty or nil.
+func Extrema[T Ordered](sl []T) (min, max T) {
+	return ExtremaFunc(sl, lessFn[T])
+}
+
+// ExtremaFunc returns minimum and maximum from the slice using a function to compare values.
+// Panics if the slice is empty or nil.
+func ExtremaFunc[T Ordered](sl []T, f LessFunc[T]) (min, max T) {
+	if len(sl) == 0 {
+		panic("slice is empty or nil")
+	}
+	min = sl[0]
+	max = sl[0]
+	for _, v := range sl[1:] {
+		if f(v, min) {
+			min = v
+		} else if f(max, v) {
+			max = v
+		}
+	}
+	return
 }
 
 // Sort sorts the slice.
