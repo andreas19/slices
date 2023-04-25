@@ -86,9 +86,15 @@ func Sort[T Ordered](sl []T) {
 
 // SortFunc sorts the slice using a function to compare values.
 func SortFunc[T any](sl []T, stable bool, f LessFunc[T]) {
-	sort.Slice(sl, func(i, j int) bool {
-		return f(sl[i], sl[j])
-	})
+	if stable {
+		sort.SliceStable(sl, func(i, j int) bool {
+			return f(sl[i], sl[j])
+		})
+	} else {
+		sort.Slice(sl, func(i, j int) bool {
+			return f(sl[i], sl[j])
+		})
+	}
 }
 
 // SortClone returns a sorted clone of the slice.
