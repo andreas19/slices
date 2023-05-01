@@ -96,21 +96,6 @@ func ReverseClone[T any](sl []T) []T {
 	return result
 }
 
-// Compress returns a new slice with all values from sl for which the corresponding
-// value in selectors is true.
-func Compress[T any](sl []T, selectors []bool) []T {
-	if sl == nil {
-		return nil
-	}
-	result := []T{}
-	for i := 0; i < Min([]int{len(sl), len(selectors)}); i++ {
-		if selectors[i] {
-			result = append(result, sl[i])
-		}
-	}
-	return result
-}
-
 // DropWhile drops values from sl as long as pred returns true and returns
 // the rest in a new slice.
 func DropWhile[T any](sl []T, pred Predicate[T]) []T {
