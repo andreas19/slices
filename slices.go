@@ -48,6 +48,20 @@ func Filter[T any](sl []T, pred Predicate[T]) []T {
 	return result
 }
 
+// FilterIndex returns a new slice with all values for which pred(index) returns true.
+func FilterIndex[T any](sl []T, pred Predicate[int]) []T {
+	if sl == nil {
+		return nil
+	}
+	result := []T{}
+	for i, v := range sl {
+		if pred(i) {
+			result = append(result, v)
+		}
+	}
+	return result
+}
+
 // Flatten returns a new slice with one level of nesting removed from a slice of slices.
 func Flatten[T any](sl [][]T) []T {
 	return Concat(sl...)
@@ -83,7 +97,7 @@ func ReverseClone[T any](sl []T) []T {
 }
 
 // Compress returns a new slice with all values from sl for which the corresponding
-// value is selectors is true.
+// value in selectors is true.
 func Compress[T any](sl []T, selectors []bool) []T {
 	if sl == nil {
 		return nil
