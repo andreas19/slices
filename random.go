@@ -12,7 +12,7 @@ func Shuffle[T any](sl []T) {
 }
 
 // RandomInt returns a slice of given length with pseudo-random values in the interval [0,n).
-// n == 0 means no upper limit. It panics when n < 0
+// n == 0 means no upper limit. Panics when n < 0
 func RandomInt(length, n int) []int {
 	var randFunc func() int
 	if n == 0 {
