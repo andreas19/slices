@@ -32,7 +32,7 @@ func Map2[T, U, V any](sl1 []T, sl2 []U, f Map2Func[T, U, V]) []V {
 	return result
 }
 
-// A Map2Func maps three values to another value.
+// A Map3Func maps three values to another value.
 type Map3Func[T, U, V, W any] func(x T, y U, z V) W
 
 // Map3 maps values in three slices using a mapping function.
