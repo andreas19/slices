@@ -23,3 +23,12 @@ func Values[T any](sl []T) iter.Seq[T] {
 		}
 	}
 }
+
+// Collect returns a new slice with the values from seq.
+func Collect[T any](seq iter.Seq[T]) []T {
+	result := []T{}
+	for v := range seq {
+		result = append(result, v)
+	}
+	return result
+}
