@@ -1,3 +1,3 @@
 module github.com/andreas19/slices
 
-go 1.20
+go 1.23
